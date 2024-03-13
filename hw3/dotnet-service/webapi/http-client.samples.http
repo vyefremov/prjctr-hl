@@ -1,0 +1,14 @@
+### Post analytics event
+POST {{host}}/analytics/events
+Content-Type: application/json
+
+{
+  "event": "click",
+  "userId": "user-123",
+  "properties": {
+    "button": "buy",
+    "page": "home"
+  }
+}
+
+### Get analysis results
