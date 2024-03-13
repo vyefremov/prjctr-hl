@@ -45,7 +45,7 @@ public class AnalyticsEventElasticStore(ElasticsearchClient client) : IAnalytics
                             .Gte(dateFrom)
                             .Lte(dateTo)))));
         
-        return documents.Documents;
+        return documents.Hits is { Count: > 0 } ? documents.Documents : [];
     }
 }
 
