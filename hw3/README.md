@@ -70,6 +70,11 @@
 - `GET /analytics/events/summary` returns summary of events both from MongoDB and Elasticsearch databases.
   - Get requests were executed on both databases and fetch ALL (> 15k records) the data.
 
+#### Commands
+The `ab` tool was used to generate requests to the Dotnet WebAPI. [ab.commands](ab.commands) file has the commands used:
+- `ab -n 100 -c 10 -T 'application/json' -p ab.post.json -m 'POST' http://localhost:8080/analytics/events/`
+- `ab -n 100 -c 10 -m 'GET' 'http://localhost:8080/analytics/events/summary?from=2024-03-14T10:59:00Z&to=2024-03-14T11:00:00Z'`
+
 ### Runs
 - `POST` request tests were done at 13:00 and 13:05 on 14th Mar 2024
 - `GET` request tests were done at 13:52 and 13:56 on 14th Mar 2024 (after the `POST` tests)
