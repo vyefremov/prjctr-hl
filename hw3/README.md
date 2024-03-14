@@ -47,7 +47,7 @@
 
 ## Setup
 
-1. Run `docker-compose up` to start the services.
+1. Run `docker-compose up --build -d` to build and start containers.
 2. Open `http://localhost:3000` to access Grafana. Use credentials from [configuration.env](tig/configuration.env) to login.
 
 ## Troubleshooting
@@ -55,9 +55,11 @@
 1. If Grafana cannot draw pie chart because plugin is not installed:
    1. Connect to Grafana container using `docker exec -it grafana /bin/bash`
    2. Run `grafana-cli plugins install grafana-piechart-panel`
+   3. Restart Grafana container using `docker restart grafana`
 2. If Telegraf cannot access docker socket:
    1. Connect to Telegraf container using `docker exec -it telegraf /bin/bash`
    2. Run `cd /var/run` and then run `chmod 777 ./docker.sock`
+   3. Restart Telegraf container using `docker restart telegraf`
 
 ## Results
 
@@ -69,9 +71,9 @@
   - Get requests were executed on both databases and fetch ALL (> 15k records) the data.
 
 ### Runs
-- There we more tests runs with different number of requests and concurrent requests. (but not all were logged)
-- `POST` request tests were done at 12:59 and 13:05 on 14th Mar 2024
+- `POST` request tests were done at 13:00 and 13:05 on 14th Mar 2024
 - `GET` request tests were done at 13:52 and 13:56 on 14th Mar 2024 (after the `POST` tests)
+- There we more tests runs with different number of requests and concurrent requests (but not all were logged)
 
 | Endpoint                        | Number of requests | Number of concurrent requests | Requests per second  [#/sec] (mean) | Time taken for test | Total transfered bytes |
 |---------------------------------|--------------------|-------------------------------|-------------------------------------|---------------------|------------------------| 
