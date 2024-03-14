@@ -109,7 +109,7 @@ Percentage of the requests served within a certain time (ms)
   99%     11
  100%     13 (longest request)
  
-ab -n 5000 -c 10 -m 'GET' 'http://localhost:8080/events/summary?from=2024-03-14T10:59:00Z&to=2024-03-14T11:00:00Z'
+ab -n 1000 -c 50 -m 'GET' 'http://localhost:8080/analytics/events/summary?from=2024-03-14T10:59:00Z&to=2024-03-14T11:00:00Z'
 
 Concurrency Level:      10
 Time taken for tests:   0.977 seconds
