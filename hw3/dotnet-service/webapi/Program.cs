@@ -1,3 +1,4 @@
+using Prometheus;
 using webapi.Data;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -29,5 +30,8 @@ app.MapGet("/analytics/events/summary", async (DateTime from, DateTime to, IEnum
 
     return new { Results = results };
 });
+
+app.MapMetrics();
+app.UseHttpMetrics();
 
 await app.RunAsync();
