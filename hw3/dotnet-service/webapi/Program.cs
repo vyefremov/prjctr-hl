@@ -17,13 +17,16 @@ app.MapPost("/analytics/events", async (AnalyticsEvent request, IEnumerable<IAna
     return Results.Accepted();
 });
 
-app.MapGet("/analytics/events/summary", async (DateTime from, DateTime to, IEnumerable<IAnalyticsEventStore> stores) =>
+app.MapGet("/analytics/events/summary", async (DateTime? from, DateTime? to, IEnumerable<IAnalyticsEventStore> stores) =>
 {
     var results = new Dictionary<string, IReadOnlyCollection<IAnalyticsEvent>>();
 
-    await Parallel.ForEachAsync(stores, async (store, token) =>
+    from ??= DateTime.UtcNow.AddSeconds(-5);
+    to ??= DateTime.UtcNow.AddSeconds(1);
+
+    await Parallel.ForEachAsync(stores, async (store, _) =>
     {
-        var events = await store.GetLatestAsync(from, to);
+        var events = await store.GetLatestAsync(from.Value, to.Value);
 
         results[store.Name] = events;
     });

@@ -1,0 +1,8 @@
+{
+  "event": "click",
+  "userId": "ab123",
+  "properties": {
+    "button": "buy",
+    "page": "home"
+  }
+}
