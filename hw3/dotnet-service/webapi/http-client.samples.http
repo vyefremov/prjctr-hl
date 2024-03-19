@@ -1,0 +1,15 @@
+### Post analytics event
+POST {{host}}/analytics/events
+Content-Type: application/json
+
+{
+  "event": "click",
+  "userId": "user-123",
+  "properties": {
+    "button": "buy",
+    "page": "home"
+  }
+}
+
+### Get analysis results
+GET {{host}}/analytics/events/summary?from=2020-01-01T00:00:00Z&to=2030-01-02T00:00:00Z
