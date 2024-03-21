@@ -1,0 +1,103 @@
+siege -f request.txt  --content-type "application/json" -c 10 -r 10
+
+Transactions:                    196 hits
+Availability:                  98.99 %
+Elapsed time:                   0.10 secs
+Data transferred:               0.04 MB
+Response time:                  0.00 secs
+Transaction rate:            1960.00 trans/sec
+Throughput:                     0.41 MB/sec
+Concurrency:                    9.60
+Successful transactions:         196
+Failed transactions:               2
+Longest transaction:            0.03
+Shortest transaction:           0.00
+
+siege -f request.txt  --content-type "application/json" -c 10 -r 25
+
+Transactions:                    496 hits
+Availability:                  99.60 %
+Elapsed time:                   0.24 secs
+Data transferred:               0.09 MB
+Response time:                  0.00 secs
+Transaction rate:            2066.67 trans/sec
+Throughput:                     0.37 MB/sec
+Concurrency:                    9.38
+Successful transactions:         496
+Failed transactions:               2
+Longest transaction:            0.06
+Shortest transaction:           0.00
+
+siege -f request.txt  --content-type "application/json" -c 25 -r 10
+
+Transactions:                    494 hits
+Availability:                  99.40 %
+Elapsed time:                   0.17 secs
+Data transferred:               0.09 MB
+Response time:                  0.01 secs
+Transaction rate:            2905.88 trans/sec
+Throughput:                     0.55 MB/sec
+Concurrency:                   24.29
+Successful transactions:         494
+Failed transactions:               3
+Longest transaction:            0.07
+Shortest transaction:           0.00
+
+siege -f request.txt  --content-type "application/json" -c 50 -r 10
+
+Transactions:                   1246 hits
+Availability:                  99.84 %
+Elapsed time:                   0.31 secs
+Data transferred:               0.20 MB
+Response time:                  0.01 secs
+Transaction rate:            4019.35 trans/sec
+Throughput:                     0.66 MB/sec
+Concurrency:                   23.77
+Successful transactions:        1246
+Failed transactions:               2
+Longest transaction:            0.03
+Shortest transaction:           0.00
+
+siege -f request.txt  --content-type "application/json" -c 50 -r 25
+
+Transactions:                   2492 hits
+Availability:                  99.84 %
+Elapsed time:                   0.50 secs
+Data transferred:               0.41 MB
+Response time:                  0.01 secs
+Transaction rate:            4984.00 trans/sec
+Throughput:                     0.82 MB/sec
+Concurrency:                   47.14
+Successful transactions:        2492
+Failed transactions:               4
+Longest transaction:            0.05
+
+siege -f request.txt  --content-type "application/json" -c 100 -r 10
+
+Transactions:                   1982 hits
+Availability:                  99.55 %
+Elapsed time:                   0.82 secs
+Data transferred:               0.36 MB
+Response time:                  0.04 secs
+Transaction rate:            2417.07 trans/sec
+Throughput:                     0.44 MB/sec
+Concurrency:                   93.41
+Successful transactions:        1982
+Failed transactions:               9
+Longest transaction:            0.25
+Shortest transaction:           0.00
+
+siege -f request.txt  --content-type "application/json" -c 100 -r 50
+
+Transactions:                   9946 hits
+Availability:                  99.73 %
+Elapsed time:                  21.41 secs
+Data transferred:               1.69 MB
+Response time:                  0.11 secs
+Transaction rate:             464.55 trans/sec
+Throughput:                     0.08 MB/sec
+Concurrency:                   49.75
+Successful transactions:        9946
+Failed transactions:              27
+Longest transaction:           12.65
+Shortest transaction:           0.00

@@ -1,0 +1,1 @@
+http://localhost:5222/api/v1/catalog/items POST {"id": 0, "name": "Test Product", "description": "Test Description", "price": 1, "catalogBrandId": 1, "catalogTypeId": 1, "availableStock": 1}
