@@ -1,0 +1,10 @@
+services: 
+  nginx: 
+    image: openresty/openresty:alpine
+    ports: 
+      - "8080:8080"
+    volumes: 
+      - ./nginx/nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf
+      - ./nginx/logs:/var/log/nginx
+      - ./nginx/script/purge.lua:/var/www/script/purge.lua
+      - ./static:/var/www/static
