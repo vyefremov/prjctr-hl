@@ -1,0 +1,30 @@
+services: 
+
+  percona:
+    image: percona/percona-server:8.0.36-28.1-multi
+    container_name: percona
+    environment:
+      MYSQL_DATABASE: 'hw10'
+      MYSQL_USER: 'user'
+      MYSQL_PASSWORD: 'User0123456789'
+      MYSQL_ROOT_PASSWORD: 'Root0123456789'
+    ports:
+      - "3306:3306"
+    volumes:
+      - percona_data_hw10:/var/lib/mysql
+
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    environment:
+      POSTGRES_DB: 'hw10'
+      POSTGRES_USER: 'user'
+      POSTGRES_PASSWORD: 'User0123456789'
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data_hw10:/var/lib/postgresql/data
+
+volumes: 
+  percona_data_hw10:
+  postgres_data_hw10:
