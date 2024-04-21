@@ -1,0 +1,38 @@
+services:
+  
+  beanstalkd:
+    image: schickling/beanstalkd:latest
+    container_name: beanstalkd
+    ports:
+      - "11300:11300"
+    volumes:
+      - beanstalkd_data_hw13:/data
+  
+  redis-no-persistence:
+    image: redis:latest
+    container_name: redis-no-persistence
+    ports:
+      - "6379:6379"
+  
+  redis-aof:
+    image: redis:latest
+    container_name: redis-aof
+    command: ["redis-server", "--appendonly", "yes"]
+    ports:
+      - "6380:6379"
+    volumes:
+      - redis_aof_hw13:/data
+  
+  redis-rdb:
+    image: redis:latest
+    container_name: redis-rdb
+    command: ["redis-server", "--save", "1 1"] # save every 1 seconds if at least 1 key changed
+    ports:
+      - "6381:6379"
+    volumes:
+      - redis_rdb_hw13:/data
+
+volumes:
+  beanstalkd_data_hw13:
+  redis_aof_hw13:
+  redis_rdb_hw13:
