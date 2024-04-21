@@ -11,6 +11,7 @@ services:
   redis-no-persistence:
     image: redis:latest
     container_name: redis-no-persistence
+    command: ["redis-server", "--save"]
     ports:
       - "6379:6379"
   
