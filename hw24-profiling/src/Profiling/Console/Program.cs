@@ -22,7 +22,17 @@ public class BenchmarkAll : BenchmarkBase
     public void Add() => Tree.Add(RandomNumber());
 
     [Benchmark]
-    public bool Contains() => Tree.Contains(Numbers[Random.Shared.Next(0, N)]);
+    public bool Contains()
+    {
+        var result = false;
+
+        for (var i = 0; i < 200; i++)
+        {
+            result = Tree.Contains(Numbers[i]);
+        }
+
+        return result;
+    }
 
     [Benchmark]
     public void Remove() => Tree.Remove(Numbers[Random.Shared.Next(0, N)]);

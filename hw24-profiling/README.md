@@ -13,29 +13,29 @@ The operations are implemented in the [BalancedBinarySearchTree.cs](./src/Profil
 
 The profiler of choice is the [BenchmarkDotNet](https://github.com/dotnet/BenchmarkDotNet).
 It’s not exactly a profiler; instead, it’s a benchmarking tool. However, it’s much more convenient for profiling the time and space complexity of operations.
-For profiling purposes, I'd sure dotTrace to measure execution time; and dotMemory to measure memory usage (based on dump).
+For profiling purposes, I'd use **dotTrace** to measure execution time; and **dotMemory** to measure memory usage (based on dump).
 
 Entry point is the [Program](./src/Profiling/Console/Program.cs) class.
 
 ### Result table
 
-| Method   | N     |         Mean | Delta % | Allocated per operation |
-|----------|-------|-------------:|--------:|------------------------:|
-| Add      | 4000  |  29,218.1 ns |         |                    65 B |
-| Add      | 8000  |  72,765.0 ns | 59.85 % |                    65 B |
-| Add      | 12000 | 109,444.5 ns | 33.51 % |                    65 B |
-| Add      | 16000 | 144,011.4 ns | 24.00 % |                    65 B |
-| Add      | 20000 | 188,569.9 ns | 23.63 % |                    65 B |
-| Contains | 4000  |     554.5 ns |         |                       - |
-| Contains | 8000  |     558.3 ns |  0.68 % |                       - |
-| Contains | 12000 |   2,424.7 ns | 76.97 % |                       - |
-| Contains | 16000 |   2,537.2 ns |  4.43 % |                       - |
-| Contains | 20000 |   2,613.0 ns |  2.29 % |                       - |
-| Remove   | 4000  |  26,838.4 ns |         |                       - |
-| Remove   | 8000  |  71,494.9 ns | 62.46 % |                       - |
-| Remove   | 12000 | 108,511.1 ns | 34.11 % |                       - |
-| Remove   | 16000 | 148,685.2 ns | 27.02 % |                       - |
-| Remove   | 20000 | 181,478.0 ns | 18.07 % |                       - |
+| Method   | N     | Mean us | Delta % | Allocated per operation |
+|----------|-------|--------:|--------:|------------------------:|
+| Add      | 4000  |   24.44 |         |                   776 B |
+| Add      | 8000  |   70.65 | +65.41% |                   776 B |
+| Add      | 12000 |  106.56 | +33.70% |                   776 B |
+| Add      | 16000 |  144.16 | +26.08% |                   776 B |
+| Add      | 20000 |  182.93 | +21.19% |                   776 B |
+| Contains | 4000  |   11.59 |         |                         |
+| Contains | 8000  |   12.98 | +10.71% |                         |
+| Contains | 12000 |   13.84 |  +6.21% |                         |
+| Contains | 16000 |   14.40 |  +3.89% |                         |
+| Contains | 20000 |   14.75 |  +2.37% |                         |
+| Remove   | 4000  |   32.08 |         |                         |
+| Remove   | 8000  |   73.25 | +56.20% |                         |
+| Remove   | 12000 |  109.12 | +32.87% |                         |
+| Remove   | 16000 |  144.84 | +24.66% |                         |
+| Remove   | 20000 |  182.03 | +20.43% |                         |
 
 **Mean:** The average time taken for a single execution of the method.
 
