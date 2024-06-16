@@ -1,0 +1,57 @@
+version: "3.8"
+
+services:
+  postgres_fdw_main:
+    image: postgres:latest
+    container_name: postgres_fdw_main
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    deploy: &RES
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: "512M"
+        reservations: # Same as limits to be more predictable
+          cpus: "1.0"
+          memory: "512M"
+    ports:
+      - "5432:5432"
+    networks:
+      - sharding
+    depends_on:
+      - postgres_fdw_2
+      - postgres_fdw_3
+    restart: always
+
+  postgres_fdw_2:
+    image: postgres:latest
+    container_name: postgres_fdw_2
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    deploy: *RES
+    ports:
+      - "5433:5432"
+    networks:
+      - sharding
+    restart: always
+
+  postgres_fdw_3:
+    image: postgres:latest
+    container_name: postgres_fdw_3
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    deploy: *RES
+    ports:
+      - "5434:5432"
+    networks:
+      - sharding
+    restart: always
+
+networks:
+    sharding:
