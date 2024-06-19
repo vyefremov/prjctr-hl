@@ -1,0 +1,3 @@
+### Get get static file
+GET http://localhost:80/static2/a.png
+
