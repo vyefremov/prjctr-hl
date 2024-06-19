@@ -69,7 +69,7 @@ NGINX does not support this out of the box. If I'd need to implement this, I wou
 
 1. Make sure nodes have health checks endpoints (e.g. `/health`) to track the availability
 2. Use Lua to periodically check the availability of each node
-3. Use Loa to select the node based on the collected availability information of each node
+3. Use Lua to select the node based on the collected availability information of each node
 
 ### Least Number of Hops
 
@@ -78,3 +78,22 @@ NGINX does not support this out of the box. If I'd need to implement this, I wou
 1. Upon starting the container, I would make a `traceroute` to each node and get the number of hops
 2. Based on the number of hops, I would update nginx.conf with higher weight for the node with the least number of hops
 
+### Pros and Cons
+
+- **Default Round Robin**
+  - Pros: Distributes the load evenly
+  - Pros: Supported out of the box
+  - Cons: Does not take into account the actual load of the server
+- **Least Time**
+  - Pros: Theoretically, can provide faster response times if the latency matters
+  - Pros: Can be used to distribute the load based on the actual load of the server
+  - Cons: Supported out of the box only with NGINX Plus
+- **Highest Availability**
+  - Pros: Higher chance of getting a response
+  - Cons: Does not take into account the actual load of the server
+  - Cons: Not supported out of the box
+- **Least Number of Hops**
+  - Pros: Theoretically, can provide faster response times if the latency matters
+  - Cons: Smaller number of hops does not always mean the fastest response time
+  - Cons: Does not take into account the actual load of the server
+  - Cons: Not supported out of the box
