@@ -1,0 +1,9 @@
+{
+    "LoggingEnabled": {
+        "TargetBucket": "hw27-aws-s3-logs",
+        "TargetPrefix": "",
+        "TargetObjectKeyFormat": {
+            "SimplePrefix": {}
+        }
+    }
+}
