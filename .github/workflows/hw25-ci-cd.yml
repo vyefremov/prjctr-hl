@@ -16,8 +16,10 @@ jobs:
         with:
           dotnet-version: '8.x'
       - name: Restore Dependencies
+        working-directory: './hw25-ci-cd/src'
         run: dotnet restore
       - name: Run Unit Tests
+        working-directory: './hw25-ci-cd/src'
         run: dotnet test --no-build --filter FullyQualifiedName\!~IntegrationTests
 
   integration-tests:
@@ -33,6 +35,8 @@ jobs:
         with:
           dotnet-version: '8.x'
       - name: Restore Dependencies
+        working-directory: './hw25-ci-cd/src'
         run: dotnet restore
       - name: Run Integration Tests
+        working-directory: './hw25-ci-cd/src'
         run: dotnet test --no-build --filter FullyQualifiedName\!~UnitTests
