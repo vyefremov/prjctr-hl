@@ -18,13 +18,8 @@ jobs:
         with:
           versionSpec: '5.x'
       - name: Determine Version
+        id: version
         uses: gittools/actions/gitversion/execute@v1.1.1
-      - run: |
-          echo "FullSemVer (env.fullSemVer)            : ${{ env.fullSemVer }}"
-        name: Display GitVersion variables (without prefix)
-      - run: |
-          echo "FullSemVer (env.GitVersion_FullSemVer) : ${{ env.GitVersion_FullSemVer }}"
-        name: Display GitVersion variables (with prefix)
   
   unit-tests:
     name: Unit Tests
@@ -95,11 +90,17 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build Docker Image
+        env: 
+          Version: ${{ steps.version.outputs.fullSemVer }}
         working-directory: './hw25-ci-cd/src/webapi'
-        run: docker build -t hw25-webapi:${{ env.GitVersion_FullSemVer }} .
+        run: docker build -t hw25-webapi:${{ env.Version }} .
 
       - name: Tag Docker Image
-        run: docker tag hw25-webapi:${{ env.GitVersion_FullSemVer }} ${{ secrets.DOCKERHUB_USERNAME }}/hw25-webapi:${{ env.GitVersion_FullSemVer }}
+        env:
+          Version: ${{ steps.version.outputs.fullSemVer }}
+        run: docker tag hw25-webapi:${{ env.Version }} ${{ secrets.DOCKERHUB_USERNAME }}/hw25-webapi:${{ env.Version }}
 
       - name: Push Docker Image
-        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/hw25-webapi:${{ env.GitVersion_FullSemVer }}
+        env:
+          Version: ${{ steps.version.outputs.fullSemVer }}
+        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/hw25-webapi:${{ env.Version }}
