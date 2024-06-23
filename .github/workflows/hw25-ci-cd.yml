@@ -110,6 +110,7 @@ jobs:
   deploy-to-staging:
     name: Deploy to Staging
     needs:
+      - version
       - build-and-push-docker-image
     runs-on: ubuntu-latest
     steps:
