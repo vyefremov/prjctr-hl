@@ -144,6 +144,9 @@ jobs:
           echo "Expected Version: ${{ env.VERSION }}"
           echo "Actual Version: $ACTUAL_VERSION"
           
+          # Remove extra double quotes from actual version
+          ACTUAL_VERSION="${ACTUAL_VERSION//\"/}"
+          
           if [ "$ACTUAL_VERSION" != "${{ env.VERSION }}" ]; then
             echo "Deployment failed"
             exit 1
