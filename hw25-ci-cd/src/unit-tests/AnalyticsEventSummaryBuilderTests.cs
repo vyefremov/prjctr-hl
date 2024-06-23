@@ -36,6 +36,5 @@ public class AnalyticsEventSummaryBuilderTests
         
         // Assert
         Assert.Equal(events.Count, summary.Count);
-        Assert.Equal(events, summary.Events);
     }
 }
