@@ -7,16 +7,17 @@
 Setup AWS EC2 instance with Nginx and Docker installed.
 
 ```bash
+# Root user
 sudo -i
+
+# Update and install Nginx
 apt update
 apt install nginx
 systemctl start nginx
 systemctl status nginx
 systemctl enable nginx
 
-cd /etc/nginx
-
-
+# Install Docker
 sudo apt install apt-transport-https ca-certificates curl software-properties-common
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
@@ -27,6 +28,7 @@ systemctl enable docker
 ```
 
 ```bash
+# Add webapi.conf to Nginx
 sudo nano /etc/nginx/sites-available/webapi.conf
 sudo ln -s /etc/nginx/sites-available/webapi.conf /etc/nginx/sites-enabled/
 
@@ -52,6 +54,6 @@ sudo nginx -t
 ```bash
 docker pull mongo; docker run -d -p 27017:27017 --name mongodb mongo
 
-docker pull vladyslavyefremov/hw25-webapi:0.1.0-hw25-ci-cd-run6.1
-docker run -d -p 8080:8080 vladyslavyefremov/hw25-webapi:0.1.0-hw25-ci-cd-run6.1 --name hw25-webapi
+docker pull vladyslavyefremov/hw25-webapi:0.1.0-hw25-ci-cd-run7.1
+docker run -d -p 8080:8080 vladyslavyefremov/hw25-webapi:0.1.0-hw25-ci-cd-run7.1 --name hw25-webapi
 ```

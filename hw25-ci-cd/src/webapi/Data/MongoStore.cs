@@ -87,6 +87,11 @@ public static partial class ServiceCollectionExtensions
 {
     public static IServiceCollection AddMongoStore(this IServiceCollection services, IConfiguration configuration, IHostEnvironment environment)
     {
+        if (configuration.GetValue("MongoConnection", string.Empty) == string.Empty)
+        {
+            return services;
+        }
+        
         var mongoConnection = configuration.GetValue("MongoConnection", "mongodb://localhost:27017");
         var mongoDatabase = configuration.GetValue("MongoDatabase", "Analytics");
 
