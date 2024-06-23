@@ -11,20 +11,23 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: '8.x'
       - name: Install GitVersion
-        run: dotnet tool install --global GitVersion.Tool
-      - name: Run GitVersion
-        id: gitversion
-        run: |
-          dotnet-gitversion /output buildserver /outputfile version.json
-          echo "::set-output name=version::$(cat version.json | jq -r '.MajorMinorPatchTag')"
+        uses: gittools/actions/gitversion/setup@v1.1.1
+        with:
+          versionSpec: '5.x'
+      - name: Determine Version
+        uses: gittools/actions/gitversion/execute@v1.1.1
+      - run: |
+          echo "FullSemVer (env.fullSemVer)            : ${{ env.fullSemVer }}"
+        name: Display GitVersion variables (without prefix)
+      - run: |
+          echo "FullSemVer (env.GitVersion_FullSemVer) : ${{ env.GitVersion_FullSemVer }}"
+        name: Display GitVersion variables (with prefix)
   
   unit-tests:
     name: Unit Tests
+    needs: 
+      - version
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -43,6 +46,7 @@ jobs:
   integration-tests:
     name: Integration Tests
     needs:
+      - version
       - unit-tests
     runs-on: ubuntu-latest
     services: 
