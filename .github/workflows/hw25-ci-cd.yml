@@ -126,7 +126,7 @@ jobs:
           ssh -o StrictHostKeyChecking=no -i private_key ${USERNAME}@${HOSTNAME} '
               docker stop hw25-webapi || true
               docker rm hw25-webapi || true
-              docker pull ${{ secrets.DOCKERHUB_USERNAME }}/hw25-webapi:${{ env.Version }}
-              docker run -d --name hw25-webapi -p 8080:8080 ${{ secrets.DOCKERHUB_USERNAME }}/hw25-webapi:${{ env.Version }}
+              docker pull ${{ secrets.DOCKERHUB_USERNAME }}/hw25-webapi:${Version}
+              docker run -d --name hw25-webapi -p 8080:8080 ${{ secrets.DOCKERHUB_USERNAME }}/hw25-webapi:${Version}
           '
   
