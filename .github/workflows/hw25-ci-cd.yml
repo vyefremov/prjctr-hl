@@ -106,3 +106,27 @@ jobs:
         env:
           Version: ${{ needs.version.outputs.fullSemVer }}
         run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/hw25-webapi:${{ env.Version }}
+  
+  deploy-to-staging:
+    name: Deploy to Staging
+    needs:
+      - build-and-push-docker-image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Deploy to Staging
+        env:
+          Version: ${{ needs.build-and-push-docker-image.outputs.Version }}
+          PRIVATE_KEY: ${{ secrets.AWS_PRIVATE_KEY }}
+          HOSTNAME: ${{secrets.AWS_HOST}}
+          USERNAME: ${{secrets.AWS_USERNAME}}
+        run: |
+          echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
+          ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME} '
+              docker stop hw25-webapi || true
+              docker rm hw25-webapi || true
+              docker pull ${{ secrets.DOCKERHUB_USERNAME }}/hw25-webapi:${{ env.Version }}
+              docker run -d --name hw25-webapi -p 8080:8080 ${{ secrets.DOCKERHUB_USERNAME }}/hw25-webapi:${{ env.Version }}
+          '
+  

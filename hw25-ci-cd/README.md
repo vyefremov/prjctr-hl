@@ -29,8 +29,9 @@ systemctl enable docker
 
 ```bash
 # Add webapi.conf to Nginx
-sudo nano /etc/nginx/sites-available/webapi.conf
-sudo ln -s /etc/nginx/sites-available/webapi.conf /etc/nginx/sites-enabled/
+sudo nano /etc/nginx/sites-available/default
+
+# Update the configuration...
 
 # Test Nginx configuration
 sudo nginx -t
@@ -52,8 +53,9 @@ sudo nginx -t
 ```
 
 ```bash
+# Start MongoDB
 docker pull mongo; docker run -d -p 27017:27017 --name mongodb mongo
 
-docker pull vladyslavyefremov/hw25-webapi:0.1.0-hw25-ci-cd-run7.1
-docker run -d -p 8080:8080 vladyslavyefremov/hw25-webapi:0.1.0-hw25-ci-cd-run7.1 --name hw25-webapi
+docker pull vladyslavyefremov/hw25-webapi:0.1.0-hw25-ci-cd-run8.1
+docker run -d -p 8080:8080 vladyslavyefremov/hw25-webapi:0.1.0-hw25-ci-cd-run8.1 --name hw25-webapi
 ```
