@@ -2,7 +2,7 @@ name: workflow.yml
 on:
   push:
     branches:
-      - 'hw25-ci-cd/**'
+      - 'hw25-ci-cd/**' # Test purpose
 
 jobs:
   version:
@@ -123,7 +123,7 @@ jobs:
           USERNAME: ${{secrets.AWS_USERNAME}}
         run: |
           echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
-          ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME} '
+          ssh -o StrictHostKeyChecking=no -i private_key ${USERNAME}@${HOSTNAME} '
               docker stop hw25-webapi || true
               docker rm hw25-webapi || true
               docker pull ${{ secrets.DOCKERHUB_USERNAME }}/hw25-webapi:${{ env.Version }}
