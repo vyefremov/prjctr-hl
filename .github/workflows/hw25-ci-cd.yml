@@ -95,7 +95,7 @@ jobs:
         env: 
           Version: ${{ needs.version.outputs.fullSemVer }}
         working-directory: './hw25-ci-cd/src/webapi'
-        run: docker build -t hw25-webapi:${{ env.Version }} .
+        run: docker build --build-arg APP_VERSION=${{ env.Version }} -t hw25-webapi:${{ env.Version }} .
 
       - name: Tag Docker Image
         env:

@@ -6,21 +6,20 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services
     .AddEndpointsApiExplorer()
     .AddSingleton<IAnalyticsEventSummaryBuilder, AnalyticsEventSummaryBuilder>()
-    .AddMongoStore(builder.Configuration, builder.Environment)
-    .AddElasticStore(builder.Configuration, builder.Environment);
+    .AddMongoStore(builder.Configuration, builder.Environment);
 
 var app = builder.Build();
 
-app.MapGet("/version", (IConfiguration configuration) => configuration.GetValue("Version", "1.0.0"));
+app.MapGet("api/v1/version", (IConfiguration c) => Results.Ok(c.GetValue("ImageVersion", "Unknown")));
 
-app.MapPost("/analytics/events", async (AnalyticsEvent request, IEnumerable<IAnalyticsEventStore> stores) =>
+app.MapPost("api/v1/analytics/events", async (AnalyticsEvent request, IEnumerable<IAnalyticsEventStore> stores) =>
 {
     await Task.WhenAll(stores.Select(store => store.InsertAsync(request)));
 
     return Results.Accepted();
 });
 
-app.MapGet("/analytics/events/summary",
+app.MapGet("api/v1/analytics/events/summary",
     async (DateTime? from,
         DateTime? to,
         IEnumerable<IAnalyticsEventStore> stores,

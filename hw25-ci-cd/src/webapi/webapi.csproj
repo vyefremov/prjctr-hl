@@ -19,5 +19,4 @@
       <PackageReference Include="MongoDB.Driver" Version="2.24.0" />
       <PackageReference Include="prometheus-net.AspNetCore" Version="8.2.1" />
     </ItemGroup>
-
 </Project>

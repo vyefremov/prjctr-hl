@@ -48,6 +48,7 @@ public class IntegrationTestsFixture : WebApplicationFactory<Program>
 
         builder.UseContentRoot(".");
         builder.UseEnvironment("Testing");
+        builder.UseSetting("MongoConnection", "mongodb://localhost:27017");
 
         builder.ConfigureServices(services =>
         {
@@ -57,9 +58,9 @@ public class IntegrationTestsFixture : WebApplicationFactory<Program>
 
 public interface IEndpoints
 {
-    [Post("/analytics/events")]
+    [Post("/api/v1/analytics/events")]
     Task<IApiResponse> CreateEvent([Body] AnalyticsEvent request);
 
-    [Get("/analytics/events/summary")]
+    [Get("/api/v1/analytics/events/summary")]
     Task<IApiResponse<Dictionary<string, AnalyticsEventSummary>>> GetEventsSummary([Query] DateTime from, [Query] DateTime to);
 }
