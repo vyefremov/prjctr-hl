@@ -56,6 +56,9 @@ sudo nginx -t
 # Start MongoDB
 docker pull mongo; docker run -d -p 27017:27017 --name mongodb mongo
 
+# Add ssh user to docker group
+sudo usermod -aG docker ubuntu 
+
 docker pull vladyslavyefremov/hw25-webapi:0.1.0-hw25-ci-cd-run8.1
 docker run -d -p 8080:8080 vladyslavyefremov/hw25-webapi:0.1.0-hw25-ci-cd-run8.1 --name hw25-webapi
 ```
