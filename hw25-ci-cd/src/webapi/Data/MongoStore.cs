@@ -87,15 +87,15 @@ public static partial class ServiceCollectionExtensions
 {
     public static IServiceCollection AddMongoStore(this IServiceCollection services, IConfiguration configuration, IHostEnvironment environment)
     {
-        if (environment.EnvironmentName == "Testing")
-        {
-            return services;
-        }
-        
         var mongoConnection = configuration.GetValue("MongoConnection", "mongodb://localhost:27017");
         var mongoDatabase = configuration.GetValue("MongoDatabase", "Analytics");
 
-        services.AddSingleton<IMongoClient>(_ => new MongoClient(mongoConnection));
+        var mongoSettings = MongoClientSettings.FromConnectionString(mongoConnection);
+        
+        mongoSettings.ConnectTimeout = TimeSpan.FromSeconds(5);
+        mongoSettings.ServerSelectionTimeout = TimeSpan.FromSeconds(5);
+        
+        services.AddSingleton<IMongoClient>(_ => new MongoClient(mongoSettings));
         services.AddSingleton(provider =>
             provider.GetRequiredService<IMongoClient>().GetDatabase(mongoDatabase));
         

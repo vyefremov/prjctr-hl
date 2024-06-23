@@ -11,6 +11,8 @@ builder.Services
 
 var app = builder.Build();
 
+app.MapGet("/version", (IConfiguration configuration) => configuration.GetValue("Version", "1.0.0"));
+
 app.MapPost("/analytics/events", async (AnalyticsEvent request, IEnumerable<IAnalyticsEventStore> stores) =>
 {
     await Task.WhenAll(stores.Select(store => store.InsertAsync(request)));
@@ -38,7 +40,7 @@ app.MapGet("/analytics/events/summary",
         results[store.Name] = summary;
     });
 
-    return new { Results = results };
+    return Results.Ok(results);
 });
 
 app.MapMetrics();

@@ -72,7 +72,7 @@ public static partial class ServiceCollectionExtensions
         {
             return services;
         }
-        
+
         var elasticConnection = configuration.GetValue("ElasticsearchConnection", "http://localhost:9200");
         
         services.AddSingleton(_ => new ElasticsearchClient(new Uri(elasticConnection)));

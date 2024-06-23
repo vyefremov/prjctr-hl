@@ -1,9 +1,6 @@
 using System.Net;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using Moq;
 using Refit;
 using webapi.Data;
 
@@ -28,21 +25,23 @@ public class AnalyticsEndpointsTests(IntegrationTestsFixture fixture) : IClassFi
         };
 
         // Act
-        var response = await client.CreateEvent(analyticsEvent);
+        var createEventResponse = await client.CreateEvent(analyticsEvent);
+
+        var getSummaryResponse = await client.GetEventsSummary(DateTime.Now.AddHours(-1), DateTime.Now.AddHours(1));
 
         // Assert
-        Assert.Equal(HttpStatusCode.Accepted, response.StatusCode);
+        Assert.Equal(HttpStatusCode.Accepted, createEventResponse.StatusCode);
+        Assert.Equal(HttpStatusCode.OK, getSummaryResponse.StatusCode);
 
-        fixture.AnalyticsEventStoreMock
-            .Verify(mock => mock.InsertAsync(It.Is<AnalyticsEvent>(x => x.UserId == analyticsEvent.UserId)),
-                Times.Once);
+        Assert.NotNull(getSummaryResponse.Content);
+        Assert.True(getSummaryResponse.Content
+                .GetValueOrDefault("MongoDB")?.Events.Any(x => x.UserId == analyticsEvent.UserId),
+            "Event not found in summary");
     }
 }
 
 public class IntegrationTestsFixture : WebApplicationFactory<Program>
 {
-    public Mock<IAnalyticsEventStore> AnalyticsEventStoreMock { get; } = new();
-    
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
         base.ConfigureWebHost(builder);
@@ -52,12 +51,6 @@ public class IntegrationTestsFixture : WebApplicationFactory<Program>
 
         builder.ConfigureServices(services =>
         {
-            services.RemoveAll(typeof(AnalyticsEventElasticStore));
-            services.RemoveAll(typeof(AnalyticsEventMongoStore));
-            services.RemoveAll(typeof(ElasticStoreInitializer));
-            services.RemoveAll(typeof(MongoStoreInitializer));
-
-            services.AddSingleton(AnalyticsEventStoreMock.Object);
         });
     }
 }
@@ -66,4 +59,7 @@ public interface IEndpoints
 {
     [Post("/analytics/events")]
     Task<IApiResponse> CreateEvent([Body] AnalyticsEvent request);
+
+    [Get("/analytics/events/summary")]
+    Task<IApiResponse<Dictionary<string, AnalyticsEventSummary>>> GetEventsSummary([Query] DateTime from, [Query] DateTime to);
 }

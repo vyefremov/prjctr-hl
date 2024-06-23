@@ -9,6 +9,7 @@
         <IsPackable>false</IsPackable>
         <IsTestProject>true</IsTestProject>
         <AssemblyName>HW25.IntegrationTests</AssemblyName>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     </PropertyGroup>
 
     <ItemGroup>
