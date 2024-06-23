@@ -1,0 +1,36 @@
+name: workflow.yml
+on:
+  push:
+    branches:
+      - 'hw25-ci-cd/**'
+
+jobs:
+  unit-tests:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '8.x'
+      - name: Restore Dependencies
+        run: dotnet restore
+      - name: Run Unit Tests
+        run: dotnet test --no-build --filter FullyQualifiedName\!~IntegrationTests
+
+  integration-tests:
+    name: Integration Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '8.x'
+      - name: Restore Dependencies
+        run: dotnet restore
+      - name: Run Integration Tests
+        run: dotnet test --no-build --filter FullyQualifiedName\!~UnitTests
