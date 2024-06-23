@@ -20,7 +20,7 @@ jobs:
         run: dotnet restore
       - name: Run Unit Tests
         working-directory: './hw25-ci-cd/src'
-        run: dotnet test --no-build --filter FullyQualifiedName\!~IntegrationTests
+        run: dotnet test --filter FullyQualifiedName\!~IntegrationTests
 
   integration-tests:
     name: Integration Tests
@@ -39,4 +39,4 @@ jobs:
         run: dotnet restore
       - name: Run Integration Tests
         working-directory: './hw25-ci-cd/src'
-        run: dotnet test --no-build --filter FullyQualifiedName\!~UnitTests
+        run: dotnet test --filter FullyQualifiedName\!~UnitTests
