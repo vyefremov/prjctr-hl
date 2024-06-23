@@ -47,7 +47,6 @@ jobs:
     name: Integration Tests
     if: false # Remove this line to enable the job
     needs:
-      - version
       - unit-tests
     runs-on: ubuntu-latest
     services: 
@@ -78,8 +77,8 @@ jobs:
     name: Build and Push Docker Image
     needs:
       - version
-#      - unit-tests
-#      - integration-tests
+      - unit-tests
+      - integration-tests
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -132,3 +131,21 @@ jobs:
               docker run -d --name hw25-webapi -p 8080:8080 ${{ secrets.DOCKERHUB_USERNAME }}/hw25-webapi:${{ env.VERSION }}
           '
   
+  post-deployment-tests:
+    name: Post Deployment Tests
+    needs:
+      - version
+      - deploy-to-staging
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run Post Deployment Tests
+        env:
+          VERSION: ${{ needs.version.outputs.fullSemVer }}
+        run: |
+          ACTUAL_VERSION=$(curl -sS -X GET ${{ secrets.AWS_HOST }}/api/v1/version)
+          echo "Actual Version: $ACTUAL_VERSION"
+          
+          if [ "$ACTUAL_VERSION" != "${{ env.VERSION }}" ]; then
+            echo "Deployment failed"
+            exit 1
+          fi
