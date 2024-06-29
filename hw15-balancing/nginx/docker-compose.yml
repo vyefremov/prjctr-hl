@@ -1,0 +1,18 @@
+version: '3'
+services:
+  load_balancer:
+    container_name: load_balancer
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - target: 8080
+        published: 8080
+        protocol: tcp
+        mode: host
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+#      - ./nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf
+      - ./GeoLite2-Country.mmdb:/etc/GeoLite2-Country.mmdb
+      - ./ngx_http_geoip2_module.so:/usr/lib/nginx/modules/ngx_http_geoip2_module.so
+    restart: always
