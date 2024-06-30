@@ -22,7 +22,7 @@ Make sure MySQL log file is accessible by changing permissions for `/var/log/mys
 chmod -R +rx /var/log/mysql
 ```
 
-Filebeat is configured to input MySQL slow query log file from `/var/log/mysql/mysql-slow.log` and output it to Logstash:
+Filebeat is configured to input MySQL slow query log file from `/var/log/mysql/slow-mysql-query.log` and output it to Logstash:
 ```yaml
 filebeat.modules:
   - module: mysql
@@ -47,8 +47,8 @@ input {
   }
 
   beats {
-      port => 5044
-    }
+    port => 5044
+  }
 }
 
 filter {
@@ -80,8 +80,6 @@ output {
 
 I've set different thresholds for `long_query_time` in MySQL configuration file [mysql/my.cnf](./mysql/my.cnf).
 Performance comparison is done by inserting 100 000 records via C# script [Program.cs](./src/Benchmarking/Benchmarking/Program.cs).
-
-```bash
 
 When `long_query_time = 0` inserting 100 000 records takes 1m 17s.
 When `long_query_time = 1` inserting 100 000 records takes 1m 11s.
