@@ -1,0 +1,75 @@
+services:
+  mysql:
+    image: mysql:latest
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'hw16'
+      MYSQL_USER: 'user'
+      MYSQL_PASSWORD: 'User0123456789'
+      MYSQL_ROOT_PASSWORD: 'Root0123456789'
+    ports:
+      - "3306:3306"
+    networks:
+      - gl2
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - mysql-logs:/var/log/mysql
+      - ./mysql/my.cnf:/etc/mysql/conf.d/my.cnf
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.14.1
+    container_name: elasticsearch
+    environment:
+      - node.name=elasticsearch
+      - discovery.type=single-node
+      - bootstrap.memory_lock=true
+      - xpack.security.enabled=false
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - es-data:/usr/share/elasticsearch/data
+    ports:
+      - "9200:9200"
+    networks:
+      - gl2
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.14.1
+    container_name: kibana
+    environment:
+      ELASTICSEARCH_HOSTS: http://elasticsearch:9200
+    ports:
+      - "5601:5601"
+    networks:
+      - gl2
+    depends_on:
+      - elasticsearch
+  
+  mongodb:
+    image: "mongo:5.0"
+    volumes:
+      - "mongodb-data:/data/db"
+    networks:
+      - gl2
+    restart: "on-failure"
+    
+  graylog:
+    image: graylog/graylog:5.1
+    container_name: graylog
+    depends_on:
+      - mongodb
+    networks:
+      - gl2
+
+volumes:
+  es-data:
+  mysql-data:
+  mysql-logs:
+  mongodb-data:
+
+networks:
+  gl2:
+    driver: bridge

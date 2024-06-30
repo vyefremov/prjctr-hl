@@ -1,0 +1,28 @@
+filebeat.config:
+  modules:
+    path: ${path.config}/modules.d/*.yml
+    reload.enabled: false
+
+filebeat.inputs:
+  - type: log
+    enabled: true
+    paths:
+      - /var/log/mysql/slow-mysql-query.log
+    multiline.pattern: '^#'
+    multiline.negate: true
+    multiline.match: after
+
+output.logstash:
+  hosts: ["logstash:5044"]
+
+#setup.dashboards:
+#  enabled: true
+
+#setup.kibana:
+#  host: "http://kibana:5601"
+#  username: ${ELASTICSEARCH_USERNAME}
+#  password: ${ELASTICSEARCH_PASSWORD}
+
+#xpack.monitoring:
+#  enabled: true
+#  elasticsearch: 
