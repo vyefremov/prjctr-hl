@@ -76,6 +76,19 @@ output {
 
 ![ELK](./docs/elk.png)
 
+### Different thresholds
+
+I've set different thresholds for `long_query_time` in MySQL configuration file [mysql/my.cnf](./mysql/my.cnf).
+Performance comparison is done by inserting 100 000 records via C# script [Program.cs](./src/Benchmarking/Benchmarking/Program.cs).
+
+```bash
+
+When `long_query_time = 0` inserting 100 000 records takes 1m 17s.
+When `long_query_time = 1` inserting 100 000 records takes 1m 11s.
+When `long_query_time = 10` inserting 100 000 records takes 1m 11s.
+
+`1` and `10` thresholds are almost the same because the query execution time is less than 1 second.
+
 ### GrayLog2
 
 I find it really difficult to configure GrayLog2 to work with MySQL in Docker based on provided examples in slides and documentation.
