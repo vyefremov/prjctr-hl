@@ -3,14 +3,14 @@ filebeat.config:
     path: ${path.config}/modules.d/*.yml
     reload.enabled: false
 
-filebeat.inputs:
-  - type: log
-    enabled: true
-    paths:
-      - /var/log/mysql/slow-mysql-query.log
-    multiline.pattern: '^#'
-    multiline.negate: true
-    multiline.match: after
+filebeat.modules:
+  - module: mysql
+    error:
+      enabled: true
+      var.paths: ["/var/log/mysql/error.log*"]
+    slowlog:
+      enabled: true
+      var.paths: ["/var/log/mysql/slow-mysql-query.log*"]
 
 output.logstash:
   hosts: ["logstash:5044"]

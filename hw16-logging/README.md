@@ -19,20 +19,19 @@
 
 Make sure MySQL log file is accessible by changing permissions for `/var/log/mysql` directory:
 ```bash
-chmod -R 644 /var/log/mysql
-chown -R root:root /var/log/mysql
+chmod -R +rx /var/log/mysql
 ```
 
 Filebeat is configured to input MySQL slow query log file from `/var/log/mysql/mysql-slow.log` and output it to Logstash:
 ```yaml
-filebeat.inputs:
-  - type: log
-    enabled: true
-    paths:
-      - /var/log/mysql/slow-mysql-query.log
-    multiline.pattern: '^#'
-    multiline.negate: true
-    multiline.match: after
+filebeat.modules:
+  - module: mysql
+    error:
+      enabled: true
+      var.paths: ["/var/log/mysql/error.log*"]
+    slowlog:
+      enabled: true
+      var.paths: ["/var/log/mysql/slow-mysql-query.log*"]
 
 output.logstash:
   hosts: ["logstash:5044"]
@@ -74,6 +73,8 @@ output {
   stdout { codec => rubydebug }
 }
 ```
+
+![ELK](./docs/elk.png)
 
 ### GrayLog2
 
