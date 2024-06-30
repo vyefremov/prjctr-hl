@@ -1,0 +1,7 @@
+[mysqld]
+
+skip-name-resolve
+
+server-id = 3
+log_bin = 1
+binlog_do_db = hw21

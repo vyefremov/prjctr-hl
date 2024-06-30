@@ -1,0 +1,48 @@
+services:
+  mysql-source:
+    image: mysql:latest
+    container_name: mysql-source
+    env_file:
+      - ./source/mysql.env
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_source_data:/var/lib/mysql
+      - ./source/mysql.conf.cnf:/etc/mysql/conf.d/mysql.conf.cnf
+    networks:
+      - mysql-network
+  
+  mysql-replica-1:
+    image: mysql:latest
+    container_name: mysql-replica-1
+    env_file:
+      - ./replica/mysql.env
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_replica1_data:/var/lib/mysql
+      - ./replica/mysql1.conf.cnf:/etc/mysql/conf.d/mysql.conf.cnf
+    networks:
+      - mysql-network
+  
+  mysql-replica-2:
+    image: mysql:latest
+    container_name: mysql-replica-2
+    env_file:
+      - ./replica/mysql.env
+    ports:
+      - "3308:3306"
+    volumes:
+      - mysql_replica2_data:/var/lib/mysql
+      - ./replica/mysql2.conf.cnf:/etc/mysql/conf.d/mysql.conf.cnf
+    networks:
+      - mysql-network
+    
+volumes:
+  mysql_source_data:
+  mysql_replica1_data:
+  mysql_replica2_data:
+    
+networks:
+  mysql-network:
+    
